@@ -68,21 +68,35 @@ const parseData = (text) => {
   let name;
   let gender;
   let fatherName;
-
+  console.log(text);
   text
     .split("\n")
     .filter((str) => !str.replace(/[^A-Z0-9]/gi, "") == "")
     .filter((data) => {
-      if (/^\d{4}\s\d{4}\s\d{4}$/.test(data)) {
-        number = data;
+      if (
+        /^\d{4}\s\d{4}\s\d{4}$/.test(
+          data.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "").trim()
+        )
+      ) {
+        number = data
+          .replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "")
+          .trim();
       } else if (
         /^[a-zA-Z\s]*$/.test(data) &&
         !/India/.test(data) &&
         !/india/.test(data)
       ) {
         name = data;
+        console.log(data, "Name");
       } else if (/DOB:/.test(data) || /DOB :/.test(data)) {
-        dob = data.split(" ")[data.split(" ").length - 1];
+        let index = 0;
+        data.split(" ").forEach((str, i) => {
+          if (/DOB:/.test(str) || /DOB/.test(str)) {
+            index = str === "DOB:" ? i : i + 1;
+            console.log(i, "DOB INDEX");
+          }
+        });
+        dob = data.split(" ")[index + 1];
       } else if (/Father/.test(data)) {
         fatherName = data;
         let index = 0;
