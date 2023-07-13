@@ -1,6 +1,7 @@
 const tesseract = require("node-tesseract-ocr");
 const path = require("path");
 const fs = require("fs");
+const Jimp = require("jimp");
 
 // const handleError = (err, res) => {
 //   res.status(500).contentType("text/plain").end("Oops! Something went wrong!");
@@ -8,6 +9,10 @@ const fs = require("fs");
 
 const OCRFunction = (req, res) => {
   const tempPath = req.file.path;
+  Jimp.read(tempPath, (err, image) => {
+    if (err) throw err;
+    image.greyscale().write(tempPath);
+  });
   //   if (path.extname(req.file.originalname).toLowerCase() === ".jpg") {
   //     fs.rename(tempPath, targetPath, (err) => {
   //       if (err) console.log(err);
@@ -88,7 +93,7 @@ const parseData = (text) => {
       ) {
         name = data;
         console.log(data, "Name");
-      } else if (/DOB:/.test(data) || /DOB :/.test(data)) {
+      } else if (/DOB:/.test(data) || /DOB/.test(data)) {
         let index = 0;
         data.split(" ").forEach((str, i) => {
           if (/DOB:/.test(str) || /DOB/.test(str)) {
