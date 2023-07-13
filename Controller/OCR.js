@@ -77,7 +77,7 @@ const parseData = (text) => {
         number = data;
       } else if (/^[a-zA-Z\s]*$/.test(data)) {
         name = data;
-      } else if (/DOB:/.test(data)) {
+      } else if (/DOB:/.test(data) || /DOB :/.test(data)) {
         dob = data.split(" ")[data.split(" ").length - 1];
       } else if (/Father/.test(data)) {
         fatherName = data;
