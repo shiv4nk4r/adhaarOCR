@@ -75,7 +75,11 @@ const parseData = (text) => {
     .filter((data) => {
       if (/^\d{4}\s\d{4}\s\d{4}$/.test(data)) {
         number = data;
-      } else if (/^[a-zA-Z\s]*$/.test(data)) {
+      } else if (
+        /^[a-zA-Z\s]*$/.test(data) &&
+        !/India/.test(data) &&
+        !/india/.test(data)
+      ) {
         name = data;
       } else if (/DOB:/.test(data) || /DOB :/.test(data)) {
         dob = data.split(" ")[data.split(" ").length - 1];
