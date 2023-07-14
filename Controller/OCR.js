@@ -1,13 +1,14 @@
 const tesseract = require("node-tesseract-ocr");
 const path = require("path");
 const fs = require("fs");
+const adhaarDb = require("../DB/adhaar.js");
 const Jimp = require("jimp");
 
 // const handleError = (err, res) => {
 //   res.status(500).contentType("text/plain").end("Oops! Something went wrong!");
 // };
 
-const OCRFunction = (req, res) => {
+const OCRFunction = async (req, res) => {
   const tempPath = req.file.path;
   Jimp.read(tempPath, (err, image) => {
     if (err) throw err;
@@ -31,12 +32,21 @@ const OCRFunction = (req, res) => {
   const images = [tempPath];
   tesseract
     .recognize(images, config)
-    .then((text) => {
+    .then(async (text) => {
       // Function to Parse the Data
       const { dob, number, name, gender, fatherName } = parseData(text);
 
       // Response Code
       if (number || name || dob || gender || fatherName) {
+        // Save Data to Mongo
+        const adhaarID = await adhaarDb.createAdhaar(
+          number,
+          name,
+          dob,
+          fatherName,
+          gender
+        );
+
         res.status(200).send({
           data: {
             adhaarNum: number,
@@ -44,6 +54,7 @@ const OCRFunction = (req, res) => {
             dob: dob,
             gender: gender,
             father: fatherName,
+            adhaarID: adhaarID,
           },
           status: "success",
         });
