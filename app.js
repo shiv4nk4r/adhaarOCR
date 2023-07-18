@@ -12,7 +12,15 @@ const multer = require("multer");
 const dotenv = require("dotenv");
 dotenv.config();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://159.89.173.116",
+      "http://localhost:5173",
+      "http://localhost:4173",
+    ],
+  })
+);
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 // Connecting to MongoDB Server
