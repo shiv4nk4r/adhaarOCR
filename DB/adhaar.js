@@ -46,6 +46,8 @@ const editAdhaar = async (
 const getAdhaar = async (id) => {
   await adhaarSchema.findById(id).then((err, result) => {
     if (err) return err;
+    console.log(result, "[AdhaarData]");
+    console.error(err, "[AdhaarData]");
     return result;
   });
 };
