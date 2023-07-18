@@ -8,6 +8,16 @@ const Jimp = require("jimp");
 //   res.status(500).contentType("text/plain").end("Oops! Something went wrong!");
 // };
 
+const updateAdhaar = async(req, res) => {
+  const {body} = req;
+  console.log(body);
+  const {data} = body;
+  const {adhaarID, adhaarNum, name, dob, gender, fatherName} = data;
+
+  const updatedData = await adhaarDb.editAdhaar(adhaarID, adhaarNum, name, dob, fatherName, gender)
+  res.send({ updatedData })
+}
+
 const OCRFunction = async (req, res) => {
   const tempPath = req.file.path;
   Jimp.read(tempPath, (err, image) => {
@@ -138,4 +148,4 @@ const parseData = (text) => {
   return { dob, number, name, gender, fatherName };
 };
 
-module.exports = { OCRFunction };
+module.exports = { OCRFunction, updateAdhaar};

@@ -31,4 +31,6 @@ const upload = multer({
 
 app.post("/ocr", upload.single("file"), OCRController.OCRFunction);
 
+app.post("/update", OCRController.updateAdhaar);
+
 app.listen(port, () => console.log(`Server started on ${port}`));
