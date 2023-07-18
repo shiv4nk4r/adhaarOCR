@@ -25,7 +25,7 @@ mongoose
   .catch((e) => console.log(`Could not connect to mongo.\n\n${e}`));
 
 const upload = multer({
-  dest: "/mnt/c/Users/shiva/Downloads/tempUpload",
+  dest: "./uploads",
   // you might also want to set some limits: https://github.com/expressjs/multer#limits
 });
 
@@ -36,6 +36,6 @@ app.post("/ocr", upload.single("file"), OCRController.OCRFunction);
 app.post("/update", OCRController.updateAdhaar);
 
 //READ DATA
-app.post("/get/:id", OCRController.readData);
+app.get("/get/:id", OCRController.readData);
 
 app.listen(port, () => console.log(`Server started on ${port}`));
