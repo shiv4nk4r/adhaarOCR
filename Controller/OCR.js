@@ -8,15 +8,36 @@ const Jimp = require("jimp");
 //   res.status(500).contentType("text/plain").end("Oops! Something went wrong!");
 // };
 
-const updateAdhaar = async(req, res) => {
-  const {body} = req;
-  console.log(body);
-  const {data} = body;
-  const {adhaarID, adhaarNum, name, dob, gender, fatherName} = data;
+const readData = async (req, res) => {
+  const { params } = req;
+  const { id } = params;
 
-  const updatedData = await adhaarDb.editAdhaar(adhaarID, adhaarNum, name, dob, fatherName, gender)
-  res.send({ updatedData })
-}
+  const adhaarData = await adhaarDb.getAdhaar(id);
+
+  // adhaarNum: number,
+  // name: name,
+  // dob: dob,
+  // gender: gender,
+  // father: fatherName,
+  res.send({ data: adhaarData });
+};
+
+const updateAdhaar = async (req, res) => {
+  const { body } = req;
+  console.log(body);
+  const { data } = body;
+  const { adhaarID, adhaarNum, name, dob, gender, fatherName } = data;
+
+  const updatedData = await adhaarDb.editAdhaar(
+    adhaarID,
+    adhaarNum,
+    name,
+    dob,
+    fatherName,
+    gender
+  );
+  res.send({ updatedData });
+};
 
 const OCRFunction = async (req, res) => {
   const tempPath = req.file.path;
@@ -59,11 +80,11 @@ const OCRFunction = async (req, res) => {
 
         res.status(200).send({
           data: {
-            adhaarNum: number,
-            name: name,
-            dob: dob,
-            gender: gender,
-            father: fatherName,
+            // adhaarNum: number,
+            // name: name,
+            // dob: dob,
+            // gender: gender,
+            // father: fatherName,
             adhaarID: adhaarID,
           },
           status: "success",
@@ -71,11 +92,11 @@ const OCRFunction = async (req, res) => {
       } else {
         res.status(200).send({
           data: {
-            adhaarNum: number,
-            name: name,
-            dob: dob,
-            gender: gender,
-            father: fatherName,
+            // adhaarNum: number,
+            // name: name,
+            // dob: dob,
+            // gender: gender,
+            // father: fatherName,
           },
           status: "error",
           message: "Unable to Read the Data",
@@ -148,4 +169,4 @@ const parseData = (text) => {
   return { dob, number, name, gender, fatherName };
 };
 
-module.exports = { OCRFunction, updateAdhaar};
+module.exports = { OCRFunction, updateAdhaar, readData };

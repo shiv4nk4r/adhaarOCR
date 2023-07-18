@@ -29,8 +29,13 @@ const upload = multer({
   // you might also want to set some limits: https://github.com/expressjs/multer#limits
 });
 
+//OCR Route
 app.post("/ocr", upload.single("file"), OCRController.OCRFunction);
 
+// OCR UPDATE
 app.post("/update", OCRController.updateAdhaar);
+
+//READ DATA
+app.post("/get/:id", OCRController.readData);
 
 app.listen(port, () => console.log(`Server started on ${port}`));
