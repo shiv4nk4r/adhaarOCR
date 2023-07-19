@@ -12,7 +12,8 @@ const readData = async (req, res) => {
   const { params } = req;
   const { id } = params;
 
-  const adhaarData = await adhaarDb.getAdhaar(id);
+  const { name, gender, adhaarNumber, fatherName, dob } =
+    await adhaarDb.getAdhaar(id);
   await console.log(adhaarData, "[getting Adhaar Data]");
 
   // adhaarNum: number,
@@ -20,7 +21,16 @@ const readData = async (req, res) => {
   // dob: dob,
   // gender: gender,
   // father: fatherName,
-  res.send({ data: adhaarData });
+  res.send({
+    data: {
+      name,
+      gender,
+      dob,
+      adhaarNum: adhaarNumber,
+      adhaarID: id,
+      father: fatherName,
+    },
+  });
 };
 
 const updateAdhaar = async (req, res) => {
