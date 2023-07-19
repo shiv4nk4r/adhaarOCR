@@ -1,4 +1,5 @@
 const adhaarSchema = require("../Model/Adhaar.js");
+const ObjectId = require("mongodb").ObjectId;
 
 const createAdhaar = async (adhaarNumber, name, dob, fatherName, gender) => {
   const adhaar = new adhaarSchema({
@@ -44,11 +45,13 @@ const editAdhaar = async (
 };
 
 const getAdhaar = async (id) => {
-  await adhaarSchema.findById(id).then((err, result) => {
-    if (err) return err;
-    console.log(result, "[AdhaarData]");
-    console.error(err, "[AdhaarData]");
-    return result;
+  let mongoId = new ObjectId(id);
+  console.log(mongoId);
+  return await adhaarSchema.findOne({ _id: mongoId }).then(function (doc) {
+    if (!doc) {
+      return {};
+    }
+    return doc;
   });
 };
 
