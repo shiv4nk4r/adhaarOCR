@@ -1,5 +1,4 @@
 # adhaarOCR
-# Node.js Backend Application
 
 This is a Node.js backend application that uses Tesseract OCR (Optical Character Recognition) for text extraction from images. It demonstrates how to set up the project, install dependencies, and run the server.
 
