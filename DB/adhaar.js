@@ -27,9 +27,10 @@ const editAdhaar = async (
   fatherName,
   gender
 ) => {
+  console.log(adhaarID)
   await adhaarSchema
     .findOneAndUpdate(
-      { _id: adhaarID },
+      { _id: new ObjectId(adhaarID) },
       {
         name: name,
         dob: dob,
@@ -45,6 +46,7 @@ const editAdhaar = async (
 };
 
 const getAdhaar = async (id) => {
+  console.log(id, '[Recieved ID]');
   let mongoId = new ObjectId(id);
   console.log(mongoId);
   return await adhaarSchema.findOne({ _id: mongoId }).then(function (doc) {

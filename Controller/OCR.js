@@ -12,9 +12,11 @@ const readData = async (req, res) => {
   const { params } = req;
   const { id } = params;
 
+  console.log(params, 'PARAMS')
+
   const { name, gender, adhaarNumber, fatherName, dob } =
     await adhaarDb.getAdhaar(id);
-  await console.log(adhaarData, "[getting Adhaar Data]");
+  //await console.log(adhaarData, "[getting Adhaar Data]");
 
   // adhaarNum: number,
   // name: name,
